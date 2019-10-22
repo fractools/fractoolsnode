@@ -18,11 +18,11 @@ const io = SocketIO(server)
 // Define Root Path
 global.__basedir = __dirname;
 
-// Localize if Fileserver is installed
+// Localize Fractools Modules
 for (let dep in pkg.dependencies) {
-  if (dep === '@fractools/fileserver') {
+  if (dep.startsWith('@fractools')) {
     // Initialize Fileserver
-    require('@fractools/fileserver')(app)         // TODO Move to SocketIO
+    require(dep)(app)         // TODO Move to SocketIO
   }
 }
 

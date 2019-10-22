@@ -11,7 +11,7 @@
     "forever": "node forever -w forever -w index"
   },
   "dependencies": {
-    "@fractools/fileserver": "^0.1.0",
+    "@fractools/fileserver": "^0.1.1",
     "express": "^4.17.1",
     "forever-monitor": "^1.7.1",
     "nodemailer": "^6.3.1",
