@@ -1,0 +1,24 @@
+{
+  "name": "fractoolsnode",
+  "version": "0.1.0",
+  "description": "Node for Fractools Infrastrucutures",
+  "author": "fractools.de",
+  "license": "MIT",
+  "repository": "https://github.com/fractools/fractoolsnode",
+  "scripts": {
+    "dev": "nodemon -w index",
+    "start": "node index",
+    "forever": "node forever -w forever -w index"
+  },
+  "dependencies": {
+    "@fractools/fileserver": "^0.1.0",
+    "express": "^4.17.1",
+    "forever-monitor": "^1.7.1",
+    "nodemailer": "^6.3.1",
+    "pouchdb": "^7.1.1",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
