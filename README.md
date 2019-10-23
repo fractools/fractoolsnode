@@ -5,8 +5,10 @@ This Node uses Websockets to build a communication network between several Clien
 ```shell
 # Install Dependencies
 npm i
+
 # Run Node in Development Mode with `Nodemon`
 npm run dev
+
 # Run Node in Production mode
 npm run start
 ```
