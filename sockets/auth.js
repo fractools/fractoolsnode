@@ -1,6 +1,6 @@
 const PouchDB = require('pouchdb'),
-      { saltHashPassword } = require('../lib/cryptoPW'),
-      { authInit, fetch } = require('../lib/genPouch');
+      { saltHashPassword, genRandomString } = require('../lib/cryptoPW'),
+      { authInit, fetch, putDoc } = require('../lib/genPouch');
 
 
 module.exports = (socket, io, clients) => {
@@ -12,15 +12,6 @@ module.exports = (socket, io, clients) => {
   socket.on(`login`, async (data, fn) => {
     console.dir(` ######## [ Server Engine ] ######## Fetching User Credentials for ${data.username} `)
 
-    // let recentClients = clients.filter(c => c !== socket.id);
-    // clients = recentClients;
-
-    // Add Client to Client-List
-    // clients.push({ id: socket.id, user: data.username });
-
-    // socket.emit(`client`, { id: socket.id, user: data.username })
-    // socket.broadcast.emit(`client`, { id: socket.id, user: data.username })
-
     // Fetch User Credencials
     let users;
     try {
@@ -30,26 +21,55 @@ module.exports = (socket, io, clients) => {
     }
 
     // Get Single User out of Users List via matching Credencials
-    const user = users.find(u => u.username === data.username)
+    let user = users.find(u => u.username === data.username)
 
     // Try Authentification for found User
     if (user) {
       // Crypto
       let result = saltHashPassword(data.password, user.password.salt)
       if (result.passwordHash === user.password.passwordHash) {
-        return fn(null, { username: user.username, role: user.role, _id: user._id })
+
+        // Generate Token for Autologin via Cookie
+        let token = genRandomString(16)
+        // Add Token into User
+        user = { ...user, token }
+
+        try {
+          await putDoc('user', user._id, user)
+        } catch (e) {
+          console.log(e);
+        }
+
+        return fn(null, { username: user.username, role: user.role, _id: user._id, token })
       }
-      fn({ message: 'Nutzername oder Passwort ist falsch!' }, null)
+      fn({ message: 'Wrong Credentials' }, null)
     }
-    fn({ message: 'Nutzername oder Passwort ist falsch!' }, null)
+    fn({ message: 'Wrong Credentials' }, null)
+  })
+
+  socket.on('token', async (token, fn) => {
+
+    let users;
+    try {
+      users = await fetch('user')
+    } catch (e) {
+      console.log(e);
+    }
+
+    const user = users.find(u => u.token === token)
+
+    if (user) {
+      console.dir(` ######## [ Server Engine ] ######## Login via Token by ${user.username} `)
+      return fn(null, { username: user.username, role: user.role, _id: user._id, token })
+    }
+    fn({ message: 'No valid token' }, null)
+
   })
 
   // Client Cookie Login
   socket.on('client', (client) => {
     // Add Client to Client-List
     clients.push(client);
-    // console.log(io.sockets.clients().connected)
-    // console.log('id', socket.id);
     socket.emit(`new-client`, clients)
     socket.broadcast.emit(`new-client`, clients)
   })

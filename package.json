@@ -1,10 +1,11 @@
 {
   "name": "fractoolsnode",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Node for Fractools Infrastrucutures",
   "author": "fractools.de",
   "license": "MIT",
   "repository": "https://github.com/fractools/fractoolsnode",
+  "homepage": "https://github.com/fractools/",
   "scripts": {
     "dev": "nodemon -w index",
     "start": "node index"
