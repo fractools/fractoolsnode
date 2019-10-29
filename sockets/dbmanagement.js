@@ -1,6 +1,7 @@
 const PouchDB = require('pouchdb'),
       pkg = require('../package'),
       // Import lib
+      logger = require('../lib/logger'),
       genPouch = require('../lib/genPouch'),
       // Extract Methods form Lib
       replicate = genPouch.replicate,
@@ -38,7 +39,7 @@ module.exports = (socket) => {
 
   // Send and Broadcast new Document
   socket.on(`send-document`, async (database, data, id, fn) => {
-    console.dir(` ######## [ Server Socket ] ######## Send Data in "${database}"`)
+    console.dir(` ######## [ Server Socket ] ######## Put Data in "${database}"`)
     let db = new PouchDB(`./database/${database}`)
     let doc = {
       _id: id,
@@ -50,8 +51,10 @@ module.exports = (socket) => {
       let docs = await fetch(database);
       socket.broadcast.emit(`documents`, docs, database)
       socket.emit(`documents`, docs, database)
+      logger('Documents', 'info', `Put Data in "${database}"`)
     } catch (err) {
       console.log(err);
+      logger('Documents', 'error', `Error Putting Data in "${database}": ${err}`)
       fn(err, null)
     }
     try {
@@ -77,8 +80,10 @@ module.exports = (socket) => {
       fn(null, response);
       socket.broadcast.emit(`documents`, docs, database);
       socket.emit(`documents`, docs, database);
+      logger('Documents', 'info', `Update Data in "${database}"`)
     } catch (err) {
       console.dir(err);
+      logger('Documents', 'error', `Error Updating Data in "${database}": ${err}`)
       fn(err, null)
     }
     try {
@@ -100,8 +105,10 @@ module.exports = (socket) => {
       fn(null, response);
       socket.broadcast.emit(`documents`, docs, database)
       socket.emit(`documents`, docs, database)
+      logger('Documents', 'info', `Remove Data in "${database}"`)
     } catch (err) {
       console.dir(err);
+      logger('Documents', 'error', `Error Removing Data in "${database}": ${err}`)
       fn(err, null);
     }
     try {
@@ -126,7 +133,7 @@ module.exports = (socket) => {
 
   // Send and Broadcast new Document
   socket.on(`send-db`, async (data, id, fn) => {
-    console.dir(` ######## [ Server Socket ] ######## Send ${data.dbname} in "Databases"`)
+    console.dir(` ######## [ Server Socket ] ######## Put ${data.dbname} in "Databases"`)
     let db = new PouchDB(`./database/databases`)
     let doc = {
       _id: id,
@@ -141,8 +148,10 @@ module.exports = (socket) => {
       socket.emit(`new-database`, doc)
       socket.broadcast.emit(`documents`, docs, 'databases')
       socket.emit(`documents`, docs, 'databases')
+      logger('Documents', 'info', `Put "${database}" into "Databases"`)
     } catch (err) {
       console.log(err);
+      logger('Documents', 'error', `Error Putting "${database}" in "Databases": ${err}`)
       fn(err, null);
     }
     try {

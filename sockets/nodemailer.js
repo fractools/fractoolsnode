@@ -1,5 +1,6 @@
 "use strict";
-const nodemailer = require("nodemailer");
+const nodemailer = require("nodemailer"),
+      logger = require('../lib/logger');
 
 async function main(to, subject, text){
   // create reusable transporter object using the default SMTP transport
@@ -38,9 +39,11 @@ module.exports = (socket) => {
     console.log(` ######## [ Server Mailer ] ######## Send Mail to "${to}" `);
     try {
       let res = await main(to, subject, text)
+      logger('Nodemailer', 'info', `Send Mail to "${to}"`)
       fn(null, res)
     } catch (err) {
       console.log(err);
+      logger('Nodemailer', 'error', `Fail to Send Mail to "${to}": ${err}`)
       fn(err, null)
     }
   })

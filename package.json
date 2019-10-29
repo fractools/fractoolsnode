@@ -1,8 +1,8 @@
 {
   "name": "fractoolsnode",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Node for Fractools Infrastrucutures",
-  "author": "fractools.de",
+  "author": "frac.tools",
   "license": "MIT",
   "repository": "https://github.com/fractools/fractoolsnode",
   "homepage": "https://github.com/fractools/",

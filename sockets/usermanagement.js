@@ -7,6 +7,7 @@ const PouchDB = require('pouchdb'),
         matchPassword,
         genRandomString } = require('../lib/cryptoPW'),
       genPouch = require('../lib/genPouch'),
+      logger = require('../lib/logger'),
       // Extract Methods form Lib
       replicate = genPouch.replicate,
       fetch = genPouch.fetch,
@@ -45,9 +46,11 @@ module.exports = (socket) => {
       socket.emit(`documents`, resUser, 'user')
       socket.broadcast.emit(`documents`, resUserData, 'userdata')
       socket.emit(`documents`, resUserData, 'userdata')
+      logger('User Management', 'info', `Register User "${fullUser.user.username}"`)
       // Promise Response to Client
       fn(null, 'Registered')
     } catch (err) {
+      logger('User Management', 'error', `Fail to Register User "${fullUser.user.username}": ${err}`)
       fn(err, null)
       console.log(err);
     }
@@ -72,9 +75,11 @@ module.exports = (socket) => {
       // Broadcast Data to Clients
       socket.broadcast.emit(`documents`, resUser, 'user')
       socket.emit(`documents`, resUser, 'user')
+      logger('User Management', 'info', `New Password for user "${user.username}"`)
       // Promise Response to Client
       fn(null, 'Registered')
     } catch (err) {
+      logger('User Management', 'error', `No New Password for user "${user.username}": ${err}`)
       fn(err, null)
       console.log(err);
     }
@@ -131,8 +136,10 @@ module.exports = (socket) => {
         _rev: doc._rev,
         ...data
       })
+      logger('User Management', 'info', `Update user "${user.username}"`)
       fn(null, true)
     } catch (err) {
+      logger('User Management', 'error', `Fail to Update user "${user.username}": ${err}`)
       fn(err, null)
     }
   })
@@ -144,8 +151,10 @@ module.exports = (socket) => {
     try {
       let doc = await userdb.get(id)
       let res = await userdb.remove(doc)
+      logger('User Management', 'info', `Remove user "${user.username}"`)
       fn(null, true)
     } catch (err) {
+      logger('User Management', 'error', `Fail to Remove user "${user.username}": ${err}`)
       fn(err, null)
     }
   })

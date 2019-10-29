@@ -4,7 +4,8 @@ const http = require('http'),
       pkg = require('./package'),
       express = require('express'),
       SocketIO = require('socket.io'),
-      genPouch = require('./lib/genPouch');
+      genPouch = require('./lib/genPouch'),
+      logger = require('./lib/logger');
 
 // Config Env
 const PORT = process.env.PORT || config.port
@@ -17,6 +18,9 @@ const io = SocketIO(server)
 
 // Define Root Path
 global.__basedir = __dirname;
+
+// Log Node Initialization
+logger('Node Core', 'info', `Initialize Node`)
 
 // Localize Fractools Modules
 for (let dep in pkg.dependencies) {
