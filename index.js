@@ -26,7 +26,7 @@ logger('Node Core', 'info', `Initialize Node`)
 for (let dep in pkg.dependencies) {
   if (dep.startsWith('@fractools')) {
     // Initialize Fileserver
-    require(dep)(app)         // TODO Move to SocketIO
+    require(dep)(app, logger)         // TODO Move to SocketIO
   }
 }
 
