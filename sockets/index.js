@@ -27,7 +27,7 @@ module.exports = (io) => {
     });
 
     // Documentmanagement
-    require('./dbmanagement')(socket);
+    require('./docmanagement')(socket);
     // Authentififcation
     require('./auth')(socket, io, clients);
     // NodeMailer

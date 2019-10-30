@@ -25,3 +25,42 @@ If you want to protect the Node for Crashes, which decrease your runtime, use `F
 # Run your instance
 [sudo] forever start index.js
 ```
+
+## Concept
+
+
+
+
+## Infrastructure
+
+The fallowing descripes the modules and its functionality.
+
+### Intersection
+> `/index`
+> `/sockets/index`
+
+The `intersection` is the 'network handler', which provides the connectivity between clients and node via websockets. It has the 'router' job.
+Every client, which connects with the node gets a token by the `tokenizer` module, so the network know the clients identity.
+
+### Tokenizer
+> `/lib/tokenizer`
+
+The `tokenizer` is a keygenerator for enccrypting passwords and tokens for clients and its user. It needs the `dbmanager`.
+
+### Authmanager
+> `/sockets/auth`
+
+The `authmanager` manages user authentification. It can 'login' vie crendentials or token. It needs the `dbmanager`.
+
+### DBmanager
+> `/sockets/dbmanagement`
+
+Is for managing Databases like adding and removing, monitor doccounts and revisions
+
+### Docmanager
+> `/sockets/docmanagemenet`
+
+### Usermanager
+> `/sockets/usermanagement`
+
+Here you can register and remove user and check or renew passwords. Roles are managable.

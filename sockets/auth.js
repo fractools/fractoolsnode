@@ -1,6 +1,6 @@
 const PouchDB = require('pouchdb'),
       logger = require('../lib/logger'),
-      { saltHashPassword, genRandomString } = require('../lib/cryptoPW'),
+      { saltHashPassword, genRandomString } = require('../lib/tokenizer'),
       { authInit, fetch, putDoc } = require('../lib/genPouch');
 
 

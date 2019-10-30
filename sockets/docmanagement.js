@@ -148,10 +148,10 @@ module.exports = (socket) => {
       socket.emit(`new-database`, doc)
       socket.broadcast.emit(`documents`, docs, 'databases')
       socket.emit(`documents`, docs, 'databases')
-      logger('Documents', 'info', `Put "${database}" into "Databases"`)
+      logger('Database', 'info', `Put "${data.dbname}" into "Databases"`)
     } catch (err) {
       console.log(err);
-      logger('Documents', 'error', `Error Putting "${database}" in "Databases": ${err}`)
+      logger('Database', 'error', `Error Putting "${data.dbname}" in "Databases": ${err}`)
       fn(err, null);
     }
     try {

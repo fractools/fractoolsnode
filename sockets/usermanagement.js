@@ -1,19 +1,14 @@
 // No need to Define the Rest expect Custom Methods
 const PouchDB = require('pouchdb'),
-      pkg = require('../package'),
       // Import Lib
       { saltHashPasswordRegister,
         saltHashPassword,
         matchPassword,
-        genRandomString } = require('../lib/cryptoPW'),
-      genPouch = require('../lib/genPouch'),
-      logger = require('../lib/logger'),
-      // Extract Methods form Lib
-      replicate = genPouch.replicate,
-      fetch = genPouch.fetch,
-      docCount = genPouch.docCount,
-      // Define PouchDB-Remote-Server and Database
-      server = pkg.remotePouchDB;
+        genRandomString } = require('../lib/tokenizer'),
+      { replicate,
+        fetch,
+        docCount } = require('../lib/genPouch'),
+        logger = require('../lib/logger');
 
 module.exports = (socket) => {
   // Register new User
