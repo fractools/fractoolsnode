@@ -5,15 +5,15 @@ const nodemailer = require("nodemailer"),
 async function main(to, subject, text){
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "",
+    host: config.nodemailer.host,
     port: 25,
     secure: false,                          // true for 465, false for other ports
     tls: {
       rejectUnauthorized: false
     },
     auth: {
-      user: '',                             // generated ethereal user
-      pass: ''                              // generated ethereal password
+      user: config.nodemailer.user,                             // generated ethereal user
+      pass: config.nodemailer.password                              // generated ethereal password
     }
   });
   try {
