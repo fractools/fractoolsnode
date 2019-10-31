@@ -4,7 +4,7 @@ const PouchDB = require('pouchdb'),
       { authInit, fetch, putDoc } = require('../lib/genPouch');
 
 
-module.exports = (socket, io, clients) => {
+module.exports = (socket) => {
   console.dir(` ######## [ Server Engine ] ######## Initialize Authentification `)
 
   // User Authentification
@@ -13,7 +13,7 @@ module.exports = (socket, io, clients) => {
   socket.on(`login`, async (data, fn) => {
     console.dir(` ######## [ Server Engine ] ######## "${data.username}" logs in `)
 
-    // Fetch User Credencials
+    // Fetch User Credentials
     let users;
     try {
       users = await fetch('user');
@@ -68,14 +68,6 @@ module.exports = (socket, io, clients) => {
     }
     fn({ message: 'No valid token' }, null)
     logger('Authentification', 'error', `No valid Token`)
-  })
-
-
-  socket.on('client', (client) => {
-    // Add Client to Client-List
-    clients.push(client);
-    socket.emit(`new-client`, clients)
-    socket.broadcast.emit(`new-client`, clients)
   })
 
   console.dir(` ######## [ Server Engine ] ######## Authentification Initialized `)
