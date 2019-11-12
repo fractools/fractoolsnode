@@ -1,6 +1,6 @@
 {
   "name": "fractoolsnode",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Node for Fractools Infrastrucutures",
   "author": "frac.tools",
   "license": "MIT",
@@ -15,8 +15,10 @@
     "express": "^4.17.1",
     "moment": "^2.24.0",
     "nodemailer": "^6.3.1",
+    "os-monitor": "^1.0.7",
     "pouchdb": "^7.1.1",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "socket.io-stream": "^0.9.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"

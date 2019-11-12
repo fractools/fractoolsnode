@@ -30,7 +30,6 @@ If you want to protect the Node for Crashes, which decrease your runtime, use `F
 
 
 
-
 ## Infrastructure
 
 The fallowing descripes the modules and its functionality.
@@ -41,6 +40,12 @@ The fallowing descripes the modules and its functionality.
 
 The `intersection` is the 'network handler', which provides the connectivity between clients and node via websockets. It has the 'router' job.
 Every client, which connects with the node gets a token by the `tokenizer` module, so the network know the clients identity.
+
+### Monitor
+> `/lib/monitor`
+> `/lib/logger`
+
+`Monitor` and its `Logger` Module help monitoring the state of the system including a database for logs. It requires the `dbmanager`
 
 ### Tokenizer
 > `/lib/tokenizer`

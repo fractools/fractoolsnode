@@ -1,4 +1,3 @@
-// No need to Define the Rest expect Custom Methods
 const PouchDB = require('pouchdb'),
       // Import Lib
       { saltHashPasswordRegister,
@@ -101,7 +100,7 @@ module.exports = (socket) => {
     try {
       let userrow = await alluser.allDocs()
       let user = userrow.rows.map(row => row.doc)
-      console.log(user);
+      if (user.length === 0) return fn('No User exists', null);
       fn(null, user)
     } catch (err) {
       fn(err, null)
