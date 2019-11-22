@@ -5,7 +5,7 @@ const PouchDB = require('pouchdb'),
       { saltHashPasswordRegister,
         saltHashPassword,
         matchPassword,
-        genRandomString } = require('../lib/cryptoPW'),
+        genRandomString } = require('../lib/tokenizer'),
       genPouch = require('../lib/genPouch'),
       logger = require('../lib/logger'),
       // Extract Methods form Lib
