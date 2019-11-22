@@ -1,18 +1,25 @@
+// No need to Define the Rest expect Custom Methods
 const PouchDB = require('pouchdb'),
+      pkg = require('../package'),
       // Import Lib
       { saltHashPasswordRegister,
         saltHashPassword,
         matchPassword,
-        genRandomString } = require('../lib/tokenizer'),
-      { replicate,
-        fetch,
-        docCount } = require('../lib/genPouch'),
-        logger = require('../lib/logger');
+        genRandomString } = require('../lib/cryptoPW'),
+      genPouch = require('../lib/genPouch'),
+      logger = require('../lib/logger'),
+      // Extract Methods form Lib
+      replicate = genPouch.replicate,
+      fetch = genPouch.fetch,
+      docCount = genPouch.docCount,
+      // Define PouchDB-Remote-Server and Database
+      server = pkg.remotePouchDB;
 
-module.exports = (socket) => {
+module.exports = (socket, clients) => {
   // Register new User
   socket.on(`register`, async (fullUser, fn) => {
     console.log(` ######## [ Server Usermanagement ] ######## Register User "${fullUser.user.username}" `);
+    let client = clients.find(client => client.id === socket.id)
     // Split Data for two Datasets
     const user = fullUser.user,
           userData = fullUser.userData;
@@ -40,11 +47,11 @@ module.exports = (socket) => {
       socket.emit(`documents`, resUser, 'user')
       socket.broadcast.emit(`documents`, resUserData, 'userdata')
       socket.emit(`documents`, resUserData, 'userdata')
-      logger('User Management', 'info', `Register User "${fullUser.user.username}"`)
+      logger('User Management', 'info', `Register User "${fullUser.user.username}"`, client)
       // Promise Response to Client
       fn(null, 'Registered')
     } catch (err) {
-      logger('User Management', 'error', `Fail to Register User "${fullUser.user.username}": ${err}`)
+      logger('User Management', 'error', `Fail to Register User "${fullUser.user.username}": ${err}`, client)
       fn(err, null)
       console.log(err);
     }
@@ -53,6 +60,7 @@ module.exports = (socket) => {
   // Set new Password for User
   socket.on(`newpassword`, async (user, password, fn) => {
     console.log(` ######## [ Server Usermanagement ] ######## New Password for user "${user.username}" `);
+    let client = clients.find(client => client.id === socket.id)
     // Prepare Databases
     const userdb = new PouchDB(`./database/user`);
     // Prepare crypted PW
@@ -69,11 +77,11 @@ module.exports = (socket) => {
       // Broadcast Data to Clients
       socket.broadcast.emit(`documents`, resUser, 'user')
       socket.emit(`documents`, resUser, 'user')
-      logger('User Management', 'info', `New Password for user "${user.username}"`)
+      logger('User Management', 'info', `New Password for user "${user.username}"`, client)
       // Promise Response to Client
       fn(null, 'Registered')
     } catch (err) {
-      logger('User Management', 'error', `No New Password for user "${user.username}": ${err}`)
+      logger('User Management', 'error', `No New Password for user "${user.username}": ${err}`, client)
       fn(err, null)
       console.log(err);
     }
@@ -81,6 +89,7 @@ module.exports = (socket) => {
 
   // Password Check
   socket.on(`checkpassword`, async (user, password, fn) => {
+  let client = clients.find(client => client.id === socket.id)
     // Prepare Databases
     const userdb = new PouchDB(`./database/user`);
     try {
@@ -100,7 +109,7 @@ module.exports = (socket) => {
     try {
       let userrow = await alluser.allDocs()
       let user = userrow.rows.map(row => row.doc)
-      if (user.length === 0) return fn('No User exists', null);
+      console.log(user);
       fn(null, user)
     } catch (err) {
       fn(err, null)
@@ -121,6 +130,7 @@ module.exports = (socket) => {
 
   // Update single User
   socket.on('updateuser', async (data, fn) => {
+  let client = clients.find(client => client.id === socket.id)
     const userdb = new PouchDB(`./database/user`)
     // TODO Userdata
     try {
@@ -130,25 +140,26 @@ module.exports = (socket) => {
         _rev: doc._rev,
         ...data
       })
-      logger('User Management', 'info', `Update user "${user.username}"`)
+      logger('User Management', 'info', `Update user "${user.username}"`, client)
       fn(null, true)
     } catch (err) {
-      logger('User Management', 'error', `Fail to Update user "${user.username}": ${err}`)
+      logger('User Management', 'error', `Fail to Update user "${user.username}": ${err}`, client)
       fn(err, null)
     }
   })
 
   // Remove single User
   socket.on('removeuser', async (id, fn) => {
+  let client = clients.find(client => client.id === socket.id)
     const userdb = new PouchDB(`./database/user`)
     // TODO Userdata
     try {
       let doc = await userdb.get(id)
       let res = await userdb.remove(doc)
-      logger('User Management', 'info', `Remove user "${user.username}"`)
+      logger('User Management', 'info', `Remove user "${user.username}"`, client)
       fn(null, true)
     } catch (err) {
-      logger('User Management', 'error', `Fail to Remove user "${user.username}": ${err}`)
+      logger('User Management', 'error', `Fail to Remove user "${user.username}": ${err}`, client)
       fn(err, null)
     }
   })

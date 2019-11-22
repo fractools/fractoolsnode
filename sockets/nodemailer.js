@@ -33,17 +33,18 @@ async function main(to, subject, text){
   }
 }
 
-module.exports = (socket) => {
+module.exports = (socket, clients) => {
   // Send E-Mail via Node
   socket.on(`send-mail`, async (to, subject, text, fn) => {
     console.log(` ######## [ Server Mailer ] ######## Send Mail to "${to}" `);
+    let client = clients.find(client => client.id === socket.id)
     try {
       let res = await main(to, subject, text)
-      logger('Nodemailer', 'info', `Send Mail to "${to}"`)
+      logger('Nodemailer', 'info', `Send Mail to "${to}"`, client)
       fn(null, res)
     } catch (err) {
       console.log(err);
-      logger('Nodemailer', 'error', `Fail to Send Mail to "${to}": ${err}`)
+      logger('Nodemailer', 'error', `Fail to Send Mail to "${to}": ${err}`, client)
       fn(err, null)
     }
   })

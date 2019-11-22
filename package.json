@@ -1,6 +1,6 @@
 {
   "name": "fractoolsnode",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Node for Fractools Infrastrucutures",
   "author": "frac.tools",
   "license": "MIT",
@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon -w index",
     "start": "node index"
-  }, 
+  },
   "dependencies": {
     "@fractools/fileserver": "^0.1.1",
     "express": "^4.17.1",
