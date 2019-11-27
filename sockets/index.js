@@ -1,6 +1,7 @@
-const logger = require('../lib/logger')
+const logger = require('../lib/logger'),
+      pkg = require('../package');
 
-module.exports = (io) => {
+module.exports = (app, io) => {
   // Run Socket Services
   console.dir(' ######## [ Server Engine ] ######## Initialize Sockets ');
 
@@ -25,6 +26,14 @@ module.exports = (io) => {
       clients = recentClients;
       socket.broadcast.emit(`new-client`, clients)
     });
+
+    // Localize Fractools Modules
+    for (let dep in pkg.dependencies) {
+      if (dep.startsWith('@fractools')) {
+        // Initialize Fileserver
+        require(dep)(app, logger, clients)         // TODO Move to SocketIO
+      }
+    }
 
     // Documentmanagement
     require('./dbmanagement')(socket, clients);

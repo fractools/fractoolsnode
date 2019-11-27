@@ -22,14 +22,6 @@ global.__basedir = __dirname;
 // Log Node Initialization
 logger('Node Core', 'info', `Initialize Node`)
 
-// Localize Fractools Modules
-for (let dep in pkg.dependencies) {
-  if (dep.startsWith('@fractools')) {
-    // Initialize Fileserver
-    require(dep)(app, logger)         // TODO Move to SocketIO
-  }
-}
-
 // Initialize Databases
 genPouch.dbInit()           // TODO Move into databasemanager
 
@@ -37,6 +29,6 @@ genPouch.dbInit()           // TODO Move into databasemanager
 server.listen(PORT, HOST)
 
 // MasterSocket
-require('./sockets')(io);
+require('./sockets')(app, io);
 
 console.dir(' ######## [ Server Engine ] ######## Server listening on: http://' + HOST + ':' + PORT)
