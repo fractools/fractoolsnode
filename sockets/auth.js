@@ -46,10 +46,10 @@ module.exports = (socket, io, clients) => {
         return fn(null, { username: user.username, role: user.role, _id: user._id, token })
       }
       logger('Authentification', 'error', `Wrong password by "${data.username}"`, client)
-      fn({ message: 'Wrong Credentials' }, null)
+      return fn({ message: 'Wrong Credentials' }, null)
     }
     logger('Authentification', 'error', `User "${data.username}" not found`, client)
-    fn({ message: 'Wrong Credentials' }, null)
+    return fn({ message: 'Wrong Credentials' }, null)
   })
 
   socket.on('token', async (token, fn) => {
