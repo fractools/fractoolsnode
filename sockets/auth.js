@@ -53,7 +53,7 @@ module.exports = (socket, io, clients) => {
   })
 
   socket.on('token', async (token, fn) => {
-    let client = clients.find(client => client.id === socket.id)
+    // let client = clients.find(client => client.id === socket.id)
     let users;
     try {
       users = await fetch('user')
@@ -65,11 +65,11 @@ module.exports = (socket, io, clients) => {
 
     if (user) {
       console.dir(` ######## [ Server Engine ] ######## Login via Token by "${user.username}" `)
-      logger('Authentification', 'Info', `Login via Token by "${user.username}"`, client)
+      logger('Authentification', 'Info', `Login via Token by "${user.username}"`, { user: user.username, id: socket.id })
       return fn(null, { username: user.username, role: user.role, _id: user._id, token })
     }
     fn({ message: 'No valid token' }, null)
-    logger('Authentification', 'error', `No valid Token`, client)
+    logger('Authentification', 'error', `No valid Token`, { user: 'No User found', id: socket.id })
   })
 
 
