@@ -31,7 +31,7 @@ module.exports = (app, io) => {
     for (let dep in pkg.dependencies) {
       if (dep.startsWith('@fractools')) {
         // Initialize Fileserver
-        require(dep)(app, logger, clients)         // TODO Move to SocketIO
+        require(dep)(app, logger)         // TODO Move to SocketIO
       }
     }
 
