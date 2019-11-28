@@ -54,10 +54,10 @@ module.exports = (socket, clients) => {
       let docs = await fetch(database);
       socket.broadcast.emit(`documents`, docs, database);
       socket.emit(`documents`, docs, database);
-      logger('Documents', 'info', `Add new Data in "${database}"`, client);
+      logger(socket, 'Documents', 'info', `Add new Data in "${database}"`, client);
     } catch (err) {
       console.log(err);
-      logger('Documents', 'error', `Error adding new Data in "${database}": ${err}`, client);
+      logger(socket, 'Documents', 'error', `Error adding new Data in "${database}": ${err}`, client);
       fn(err, null);
     }
     try {
@@ -84,10 +84,10 @@ module.exports = (socket, clients) => {
       fn(null, response);
       socket.broadcast.emit(`documents`, docs, database);
       socket.emit(`documents`, docs, database);
-      logger('Documents', 'info', `Update Data in "${database}"`, client);
+      logger(socket, 'Documents', 'info', `Update Data in "${database}"`, client);
     } catch (err) {
       console.dir(err);
-      logger('Documents', 'error', `Error Updating Data in "${database}": ${err}`, client);
+      logger(socket, 'Documents', 'error', `Error Updating Data in "${database}": ${err}`, client);
       fn(err, null);
     }
     try {
@@ -110,10 +110,10 @@ module.exports = (socket, clients) => {
       fn(null, response);
       socket.broadcast.emit(`documents`, docs, database);
       socket.emit(`documents`, docs, database);
-      logger('Documents', 'info', `Remove Data in "${database}"`, client);
+      logger(socket, 'Documents', 'info', `Remove Data in "${database}"`, client);
     } catch (err) {
       console.dir(err);
-      logger('Documents', 'error', `Error Removing Data in "${database}": ${err}`, client);
+      logger(socket, 'Documents', 'error', `Error Removing Data in "${database}": ${err}`, client);
       fn(err, null);
     }
     try {
@@ -154,10 +154,10 @@ module.exports = (socket, clients) => {
       socket.emit(`new-database`, doc);
       socket.broadcast.emit(`documents`, docs, 'databases');
       socket.emit(`documents`, docs, 'databases');
-      logger('Documents', 'info', `Put "${data.dbname}" into "Databases"`, client);
+      logger(socket, 'Documents', 'info', `Put "${data.dbname}" into "Databases"`, client);
     } catch (err) {
       console.log(err);
-      logger('Documents', 'error', `Error Putting "${data.dbname}" in "Databases": ${err}`, client);
+      logger(socket, 'Documents', 'error', `Error Putting "${data.dbname}" in "Databases": ${err}`, client);
       fn(err, null);
     }
     try {
