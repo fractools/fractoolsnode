@@ -138,7 +138,7 @@ module.exports = (socket, clients) => {
 
   // Send and Broadcast new Document
   socket.on(`send-db`, async (data, id, fn) => {
-    console.dir(` ######## [ Server Socket ] ######## Put ${data.dbname} in "Databases"`);
+    console.dir(` ######## [ Server Socket ] ######## Add ${data.dbname} in "Databases"`);
     let client = clients.find(client => client.id === socket.id);
     let db = new PouchDB(`./database/databases`);
     let doc = {
@@ -154,7 +154,7 @@ module.exports = (socket, clients) => {
       socket.emit(`new-database`, doc);
       socket.broadcast.emit(`documents`, docs, 'databases');
       socket.emit(`documents`, docs, 'databases');
-      logger(socket, 'Documents', 'info', `Put "${data.dbname}" into "Databases"`, client);
+      logger(socket, 'Documents', 'info', `Add "${data.dbname}" into "Databases"`, client);
     } catch (err) {
       console.log(err);
       logger(socket, 'Documents', 'error', `Error Putting "${data.dbname}" in "Databases": ${err}`, client);
