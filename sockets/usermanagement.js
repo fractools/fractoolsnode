@@ -105,18 +105,22 @@ module.exports = (socket, clients) => {
   // Fetch all User
   socket.on('getalluser', async (fn) => {
     console.log('Get All User');
-    const alluser = new PouchDB(`./database/user`)
+    const alluser = new PouchDB(`./database/user`);
     // TODO Userdata
     try {
-      let userrow = await alluser.allDocs()
-      let user = userrow.rows.map(row => row.doc)
+      let user = [];
+      let userrow = await alluser.allDocs({
+        include_docs: true,
+        attachments: false
+      });
+      user = userrow.rows.map(row => row.doc);
       if (!user[0]) {
-        fn('No User exists', null)
+        fn('No User exists', null);
       }
-      fn(null, user)
+      fn(null, user);
     } catch (err) {
       console.log(err);
-      fn(err, null)
+      fn(err, null);
     }
   })
 
