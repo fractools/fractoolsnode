@@ -115,8 +115,10 @@ module.exports = (socket, clients) => {
       });
       user = userrow.rows.map(row => row.doc);
       if (!user[0]) {
+        console.log('No User');
         fn('No User exists', null);
       }
+      console.log(user);
       fn(null, user);
     } catch (err) {
       console.log(err);
