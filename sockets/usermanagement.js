@@ -104,7 +104,6 @@ module.exports = (socket, clients) => {
 
   // Fetch all User
   socket.on('getalluser', async (fn) => {
-    console.log('Get All User');
     const alluser = new PouchDB(`./database/user`);
     // TODO Userdata
     try {
@@ -118,7 +117,6 @@ module.exports = (socket, clients) => {
         console.log('No User');
         fn('No User exists', null);
       }
-      console.log(user);
       fn(null, user);
     } catch (err) {
       console.log(err);

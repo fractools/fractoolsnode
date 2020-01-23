@@ -7,6 +7,7 @@ const PouchDB = require('pouchdb'),
       replicate = genPouch.replicate,
       fetch = genPouch.fetch,
       docCount = genPouch.docCount,
+      dbExists = genPouch.dbExists,
       // Define PouchDB-Remote-Server and Database
       server = pkg.remotePouchDB;
 
@@ -17,6 +18,16 @@ module.exports = (socket, clients) => {
       let data = await docCount(database);
       fn(null, data);
     } catch (err) {
+      fn(err, null);
+    }
+  });
+
+  socket.on(`dbexists`, async (database, fn) => {
+    try {
+      let res = await dbExists(database);
+      fn(null, res);
+    } catch (err) {
+      console.log('err', err);
       fn(err, null);
     }
   });

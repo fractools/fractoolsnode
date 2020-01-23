@@ -53,7 +53,6 @@ module.exports = (socket, io, clients) => {
   })
 
   socket.on('token', async (token, fn) => {
-    console.log('Try Token Login');
     let users;
     try {
       users = await fetch('user')
@@ -62,8 +61,6 @@ module.exports = (socket, io, clients) => {
     }
 
     const user = users.find(u => u.token === token);
-
-    console.log('Found User?');
 
     if (user) {
       const client = { user: user.username, id: socket.id };
