@@ -20,7 +20,7 @@ const io = SocketIO(server)
 global.__basedir = __dirname;
 
 // Log Node Initialization
-logger('Node Core', 'info', `Initialize Node`, { user: 'Fractools Node', id: '00' })
+logger(null, 'Node Core', 'info', `Initialize Node`, { user: 'Fractools Node', id: '00' })
 
 // Initialize Databases
 genPouch.dbInit()           // TODO Move into databasemanager

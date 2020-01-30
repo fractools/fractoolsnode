@@ -18,7 +18,7 @@ const PouchDB = require('pouchdb'),
 module.exports = (socket, clients) => {
   // Register new User
   socket.on(`register`, async (fullUser, fn) => {
-    console.log(` ######## [ Server Usermanagement ] ######## Register User "${fullUser.user.username}" `);
+    console.dir(` ######## [ Server Usermanagement ] ######## Register User "${fullUser.user.username}" `);
     let client = clients.find(client => client.id === socket.id)
     // Split Data for two Datasets
     const user = fullUser.user,
@@ -59,7 +59,7 @@ module.exports = (socket, clients) => {
 
   // Set new Password for User
   socket.on(`newpassword`, async (user, password, fn) => {
-    console.log(` ######## [ Server Usermanagement ] ######## New Password for user "${user.username}" `);
+    console.dir(` ######## [ Server Usermanagement ] ######## New Password for user "${user.username}" `);
     let client = clients.find(client => client.id === socket.id)
     // Prepare Databases
     const userdb = new PouchDB(`./database/user`);
@@ -114,7 +114,6 @@ module.exports = (socket, clients) => {
       });
       user = userrow.rows.map(row => row.doc);
       if (!user[0]) {
-        console.log('No User');
         fn('No User exists', null);
       }
       fn(null, user);
