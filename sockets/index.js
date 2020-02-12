@@ -34,7 +34,7 @@ module.exports = (app, io) => {
         require(dep)(app, logger)         // TODO Move to SocketIO
       }
     }
-
+    
     // Documentmanagement
     require('./dbmanagement')(socket, clients);
     // Authentififcation
