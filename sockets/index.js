@@ -27,14 +27,8 @@ module.exports = (app, io) => {
       socket.broadcast.emit(`new-client`, clients)
     });
 
-    // Localize Fractools Modules
-    for (let dep in pkg.dependencies) {
-      if (dep.startsWith('@fractools')) {
-        // Initialize Fileserver
-        require(dep)(app, logger)         // TODO Move to SocketIO
-      }
-    }
-    
+    // Filemanagement
+    require('./filemanagement')(socket);
     // Documentmanagement
     require('./dbmanagement')(socket, clients);
     // Authentififcation
