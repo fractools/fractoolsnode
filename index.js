@@ -19,6 +19,9 @@ const io = SocketIO(server)
 // Define Root Path
 global.__basedir = __dirname;
 
+// Define Upload-Directory
+app.use('/uploads', express.static(global.__basedir + '/uploads'));
+
 // Log Node Initialization
 logger(null, 'Node Core', 'info', `Initialize Node`, { user: 'Fractools Node', id: '00' })
 
