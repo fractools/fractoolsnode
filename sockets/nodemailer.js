@@ -20,7 +20,7 @@ async function main(to, subject, text){
   try {
     // send mail with defined transport object
     let info = await transporter.sendMail({
-      from: '',  // sender address
+      from: config.nodemailer.sender,         // sender address
       to: to,                                 // list of receivers
       subject: subject,                       // Subject line
       text: text,                             // plain text body
