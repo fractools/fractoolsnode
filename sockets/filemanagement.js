@@ -1,6 +1,7 @@
 const socketStream = require('socket.io-stream'),
       logger = require('../lib/logger'),
-      fs = require('fs');
+      fs = require('fs'),
+      disk = require('diskusage');
 
 module.exports = (socket, io) => {
   console.dir(` ######## [ Server Engine ] ######## Initialize Fileserver `);
@@ -22,6 +23,7 @@ module.exports = (socket, io) => {
     stream.pipe(fs.createWriteStream(destination + filename));
   });
 
+  // Remove File
   socket.on('removeFile', (path, filename, username, fn) => {
     let dest = global.__basedir + '/uploads/', // TODO Path
         socketid = socket.id,
@@ -32,5 +34,23 @@ module.exports = (socket, io) => {
       fn(null, 'Deleted')
       logger(null, 'Fileserver', 'info', `File "${filename}" deleted in ${dest}`, client)
     })
+  });
+
+  // Check Diskspace
+  socket.on('checkdisk', (fn) => {
+    disk.check('/', (err, info) => {
+      if (err) {
+        fn(err, null);
+      } else {
+        function toGB(x) { return (x / (1024 * 1024 * 1024)).toFixed(1); }
+        let percentAvailable = ((info.available / info.total) * 100);
+        console.log(toGB(info.available));
+        fn(null, {
+          freeGB: toGB(info.available),
+          freePercent: percentAvailable,
+          total: toGB(info.total)
+        });
+      }
+    });
   });
 };
