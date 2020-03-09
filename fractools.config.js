@@ -3,6 +3,7 @@ module.exports = {
   port: '9000',
   remotePouchDB: '',
   nodemailer: {
+    sender: '',
     host: '',
     user: '',
     password: ''

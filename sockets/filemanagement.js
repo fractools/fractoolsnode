@@ -10,7 +10,7 @@ module.exports = (socket, io) => {
   socketStream(socket).on('fileupload', (stream, data) => {
     console.dir(` ######## [ Server Fileserver ] ######## Upload File `);
     let filename = data.name
-        destination = global.__basedir + '/static/uploads/';
+        destination = global.__basedir + '/uploads/';
     // Check commited Path
     if (data.path) {
       destination = destination + data.path + '/';
