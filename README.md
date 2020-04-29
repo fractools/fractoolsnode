@@ -13,9 +13,6 @@ npm run dev
 npm run start
 ```
 
-> Fractools Fileserver will be installed by default.
-> More about that module here on [@fractools/fileserver](https://github.com/fractools/fileserver)
-
 If you want to protect the Node for Crashes, which decrease your runtime, use `Forever` to keep this running with a process id (pid) on your OS.
 
 ```shell
@@ -28,7 +25,9 @@ If you want to protect the Node for Crashes, which decrease your runtime, use `F
 
 ## Concept
 
+This Backend is made for NuxtJS Clients. You can find the Plugin over here:
 
+[NuxtJS-Plugin]('https://github.com/fractools/NuxtJS-Plugin')
 
 ## Infrastructure
 
