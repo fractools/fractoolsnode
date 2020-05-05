@@ -27,7 +27,7 @@ If you want to protect the Node for Crashes, which decrease your runtime, use `F
 
 This Backend is made for NuxtJS Clients. You can find the Plugin over here:
 
-[NuxtJS-Plugin]('https://github.com/fractools/NuxtJS-Plugin')
+[NuxtJS-Plugin](https://github.com/fractools/NuxtJS-Plugin)
 
 ## Infrastructure
 
